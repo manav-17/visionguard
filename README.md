@@ -3,6 +3,7 @@
 > Real-time CV-based worker safety system with full edge deployment architecture
 > M.Tech Data Science Project | Computer Vision + Architecture Deployment
 
+---
 
 ##  Project Structure
 
@@ -92,8 +93,6 @@ http://localhost:8501
 | Inference + API | FastAPI + ONNX Runtime | 8000 |
 | Live Dashboard | Streamlit | 8501 |
 | Alert Broker | MQTT Mosquitto | 1883 |
-| Metrics | Prometheus | 9090 |
-| Monitoring UI | Grafana | 3000 |
 
 ---
 
