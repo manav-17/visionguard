@@ -1,92 +1,112 @@
-# VisionGuard — Industrial Worker Safety Monitoring
+# VisionGuard — Industrial Worker Safety Monitoring System
 
-> Real-time CV-based worker safety system with full edge deployment architecture
+> Real-time CV-based worker safety system with full edge deployment architecture  
 > M.Tech Data Science Project | Computer Vision + Architecture Deployment
+
+![Python](https://img.shields.io/badge/Python-3.12-blue)
+![YOLOv8](https://img.shields.io/badge/YOLOv8-Ultralytics-green)
+![Docker](https://img.shields.io/badge/Docker-Compose-blue)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.111-teal)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+
+---
+
+## Problem Statement
+
+Every year, 10000+ workers die in Indian factories from preventable accidents.
+Helmet violations, falls, and zone breaches go undetected in real time.
+VisionGuard solves this with an open-source, edge-deployed AI safety system.
 
 ---
 
 ##  Project Structure
 
-```
 visionguard/
-├── models/                    ← ONNX models (from Colab)
+├── 📓 VisionGuard_Training.ipynb  ← Colab training notebook
+├── models/                        ← ONNX models (from Colab)
 │   ├── ppe_detector.onnx
 │   ├── pose_detector.onnx
 │   ├── class_map.json
 │   ├── model_meta.yaml
 │   └── fall_detection.py
 ├── inference/
-│   ├── engine.py              ← Core CV pipeline
-│   └── stream.py              ← RTSP stream reader
+│   ├── engine.py                  ← Core CV pipeline
+│   └── stream.py                  ← RTSP stream reader
 ├── api/
-│   └── main.py                ← FastAPI + WebSocket
+│   └── main.py                    ← FastAPI + WebSocket
 ├── alerts/
-│   └── mqtt_publisher.py      ← MQTT alert publisher
+│   └── mqtt_publisher.py          ← MQTT alert publisher
 ├── dashboard/
-│   └── app.py                 ← Streamlit live dashboard
+│   └── app.py                     ← Streamlit live dashboard
 ├── deployment/
-│   ├── mosquitto.conf         ← MQTT broker config
-│   └── prometheus/
-│       └── prometheus.yml     ← Metrics config
-├── docker-compose.yml         ← All 5 containers
+│   └── mosquitto.conf             ← MQTT broker config
+├── docker-compose.yml             ← 3 containers
 ├── Dockerfile.api
 ├── Dockerfile.dashboard
 ├── requirements.api.txt
 ├── requirements.dashboard.txt
 ├── .env.example
-└── setup.sh                   ← One-command setup
-```
+└── run.sh                         ← One command startup
 
 ---
 
-## Quick Start
+##  Quick Start
 
 ### 1. Add models
 ```bash
 unzip ~/Downloads/visionguard_models.zip -d models/
 ```
 
-### 2. Configure CCTV
+### 2. Configure camera
 ```bash
 cp .env.example .env
-# Edit RTSP_URL with your camera's stream URL
+# Edit RTSP_URL — use 0 for webcam
 nano .env
 ```
 
 ### 3. Run everything
 ```bash
-bash setup.sh
+bash run.sh
 ```
 
 ### 4. Open dashboard
-```
 http://localhost:8501
-```
 
 ---
 
-##  CV Pipeline
+## CV Pipeline
 
 | Stage | Technology | Purpose |
 |-------|-----------|---------|
-| Frame ingestion | OpenCV RTSP | WiFi CCTV stream |
+| Frame ingestion | OpenCV RTSP | WiFi CCTV / webcam stream |
 | PPE Detection | YOLOv8s (fine-tuned) | Helmet, vest, mask detection |
 | Pose Estimation | YOLOv8-Pose | 17 keypoint fall detection |
 | Tracking | ByteTrack | Persistent worker IDs |
 | Hazard logic | Custom rules engine | Temporal alert filtering |
-| Export | ONNX FP32 | Cross-platform inference |
+| Export | ONNX FP32 | Cross-platform edge inference |
 
 **Detected hazards:**
 - 🔴 No hardhat
 - 🔴 No safety vest
-- 🔴 No mask
 - 🔴 Worker fall (pose-based)
 - 🟡 Vehicle/machinery proximity
-- 🟡 Safety cone zone breach
 
 ---
 
-## Deployment Architecture
+##  Model Results
+
+| Metric | Score |
+|--------|-------|
+| mAP50 | **0.782** |
+| Precision | **0.917** |
+| Recall | 0.701 |
+| Inference Speed | ~334ms CPU |
+| Training Epochs | 50 |
+| Dataset | 2605 images, 10 classes |
+
+---
+
+##  Deployment Architecture
 
 | Container | Technology | Port |
 |-----------|-----------|------|
@@ -110,7 +130,7 @@ http://localhost:8501
 
 ---
 
-##  Academic Reference
+## Academic Reference
 
 **Title:** A Unified Multi-Hazard Detection Architecture for Industrial Safety Monitoring on Edge Devices
 
@@ -119,32 +139,28 @@ http://localhost:8501
 - Zhang et al., *ByteTrack*, ECCV 2022
 - Dataset: Construction Site Safety, Roboflow Universe
 
-**Training results:**
-- mAP50: 0.761
-- Precision: 0.848
-- Recall: 0.677
-- Inference: ~6ms/frame
-
 ---
 
 ##  Troubleshooting
 
-**Stream not connecting:**
+**Webcam not working in Docker:**
 ```bash
-# Test RTSP URL directly
-ffplay rtsp://admin:password@192.168.1.100:554/stream
+# Run API locally instead
+RTSP_URL=0 MQTT_HOST=localhost python -m uvicorn api.main:app --host 0.0.0.0 --port 8000
+```
 
-# Or use webcam for testing
-RTSP_URL=0 docker-compose up
+**Run dashboard locally:**
+```bash
+streamlit run dashboard/app.py
 ```
 
 **View logs:**
 ```bash
-docker-compose logs -f api
-docker-compose logs -f dashboard
+docker-compose logs -f
 ```
 
 **Rebuild after code changes:**
 ```bash
 docker-compose up --build
 ```
+
