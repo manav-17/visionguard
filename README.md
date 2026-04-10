@@ -13,7 +13,7 @@
 
 ## Problem Statement
 
-Every year, 10000+ workers die in Indian factories from preventable accidents.
+Every year, 1000+ workers die in Indian factories from preventable accidents.
 Helmet violations, falls, and zone breaches go undetected in real time.
 VisionGuard solves this with an open-source, edge-deployed AI safety system.
 
