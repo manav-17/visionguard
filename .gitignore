@@ -1,0 +1,18 @@
+cat > .gitignore << EOF
+# Models too large for GitHub
+models/*.onnx
+models/*.pt
+models/*.bin
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.zip
+
+# Environment
+.env
+
+# Mac
+.DS_Store
+EOF
