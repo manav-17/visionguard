@@ -100,14 +100,13 @@ http://localhost:8501
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| `/` | GET | Service status |
+| `/` | GET | Service health check |
 | `/status` | GET | Stream + inference stats |
-| `/alerts` | GET | Recent alert history |
+| `/alerts` | GET | Alert history with timestamps |
 | `/detections` | GET | Current frame detections |
 | `/snapshot` | GET | Latest annotated frame (base64) |
-| `/metrics` | GET | Prometheus metrics |
-| `/ws` | WS | Real-time frame + alert stream |
-| `/docs` | GET | Interactive API docs |
+| `/ws` | WS | Real-time frame + alert streaming |
+| `/docs` | GET | Interactive Swagger UI |
 
 ---
 
