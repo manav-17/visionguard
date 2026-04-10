@@ -20,7 +20,7 @@ VisionGuard solves this with an open-source, edge-deployed AI safety system.
 ---
 
 ##  Project Structure
-
+```
 visionguard/
 ├── 📓 VisionGuard_Training.ipynb  ← Colab training notebook
 ├── models/                        ← ONNX models (from Colab)
