@@ -1,0 +1,29 @@
+{
+  "names": [
+    "Hardhat",
+    "Mask",
+    "NO-Hardhat",
+    "NO-Mask",
+    "NO-Safety Vest",
+    "Person",
+    "Safety Cone",
+    "Safety Vest",
+    "machinery",
+    "vehicle"
+  ],
+  "alert_classes": [
+    "NO-Hardhat",
+    "NO-Safety Vest",
+    "NO-Mask"
+  ],
+  "info_classes": [
+    "Hardhat",
+    "Safety Vest",
+    "Mask",
+    "Person",
+    "Safety Cone",
+    "machinery",
+    "vehicle"
+  ],
+  "nc": 10
+}

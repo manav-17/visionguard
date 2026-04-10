@@ -1,0 +1,27 @@
+alert_classes:
+- NO-Hardhat
+- NO-Safety Vest
+- NO-Mask
+classes:
+- Hardhat
+- Mask
+- NO-Hardhat
+- NO-Mask
+- NO-Safety Vest
+- Person
+- Safety Cone
+- Safety Vest
+- machinery
+- vehicle
+hazard_rules:
+  alert_frame_window: 5
+  fall_angle_thresh: 45
+  fall_aspect_thresh: 1.2
+pose_model:
+  file: pose_detector.onnx
+  input_size: 640
+  task: pose
+ppe_model:
+  file: ppe_detector.onnx
+  input_size: 640
+  task: detect

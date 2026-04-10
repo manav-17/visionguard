@@ -1,0 +1,12 @@
+services:
+
+  # ── MQTT Broker (Mosquitto) ──────────────────────────────────────────────
+  mqtt:
+    image: eclipse-mosquitto:2.0
+    container_name: visionguard_mqtt
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./deployment/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+    restart: unless-stopped
